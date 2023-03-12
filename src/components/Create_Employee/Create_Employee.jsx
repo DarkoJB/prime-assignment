@@ -1,34 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../../components/Create_Employee/Create_Employee.module.css';
 
-
-
-
-const Create_Employee = () => {
-  const [id, setId] = useState(1);
+const Create_Employee = ({ updateEmployeeArr }) => {
+  const [employeeId, setEmployeeId] = useState(0);
   const [employeeArr, setEmployeeArr] = useState([]);
-  useEffect(()=>{
+  useEffect(() => {
     const employees = JSON.parse(localStorage.getItem('employeesArray'));
     setEmployeeArr(employees);
     getLastId(employees);
   }, []);
 
-  const getLastId = (employees) =>{
-    console.log(employees.length);
-    if(employees.length){
+  const getLastId = (employees) => {
+    if (employees.length) {
       let lastEmployee = employees[employees.length - 1];
       let lastId = lastEmployee.id;
-      setId(lastId);
+      setEmployeeId(lastId + 1);
+    } else {
+      setEmployeeId(0);
     }
-    // else{
-    //   setId(0);
-    // }
   };
 
   const [clicked, setClicked] = useState(false);
 
   const [formData, setFormData] = useState({
-    id: id,
+    id: employeeId,
     name: '',
     email: '',
     phone_number: '',
@@ -38,17 +33,20 @@ const Create_Employee = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setFormData({
-      id: id,
-      name: '',
-      email: '',
-      phone_number: '',
-      date_birth: '',
-      salary: '',
-    });
-    employeeArr.push(formData);
-    localStorage.setItem('employeesArray', JSON.stringify(employeeArr));
-    setId(id + 1);
+
+    console.log(employeeId, 'ID');
+
+    const newEmployee = {
+      ...formData,
+      id: employeeId,
+    };
+
+    const newEmpArr = [...employeeArr, newEmployee];
+
+    setEmployeeArr(newEmpArr);
+    updateEmployeeArr(newEmployee);
+    localStorage.setItem('employeesArray', JSON.stringify(newEmpArr));
+    setEmployeeId(employeeId + 1);
   };
 
   const handleChange = (event) => {
@@ -90,16 +88,16 @@ const Create_Employee = () => {
             onChange={handleChange}
           ></input>
 
-          <label htmlFor="phone_number">Date of birth:</label>
+          <label htmlFor="date_birth">Date of birth:</label>
           <input
-            type="date"
+            type="text"
             id="date_birth"
             name="date_birth"
             value={formData.date_birth}
             onChange={handleChange}
           ></input>
 
-          <label htmlFor="phone_number">Salary:</label>
+          <label htmlFor="salary">Salary:</label>
           <input
             type="number"
             id="salary"

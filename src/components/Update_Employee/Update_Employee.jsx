@@ -1,41 +1,43 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styles from '../../components/Update_Employee/Update_Employee.module.css';
-import employees from '../../assets/mock_data';
 import { useAppDispatch } from '../../redux/hooks';
-import { updateEmployee } from '../../redux/employeeSlice';
 
-const Update_Employee = () => {
-    const dispatch = useAppDispatch();
-    // const [clicked, setClicked] = useState(false);
-    const [formData, setFormData] = useState({
+const Update_Employee = ({ id, updateEmployee }) => {
+  const dispatch = useAppDispatch();
+  // const [clicked, setClicked] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone_number: '',
+    date_birth: '',
+    salary: '',
+  });
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const jsonData = JSON.stringify(formData);
+    setFormData({
       name: '',
       email: '',
       phone_number: '',
       date_birth: '',
       salary: '',
     });
-    const handleSubmit = (event) => {
-      event.preventDefault();
-  
-      const jsonData = JSON.stringify(formData);
-      setFormData({
-        name: '',
-        email: '',
-        phone_number: '',
-        date_birth: '',
-        salary: '',
-      });
-      dispatch(updateEmployee(formData));
-    };
 
-    const handleChange = (event) => {
-      const { name, value } = event.target;
-      setFormData({ ...formData, [name]: value });
-    };
+    updateEmployee({
+      id,
+      ...formData,
+    });
+  };
 
-    return (
-      <div className={styles.updateEmp}>
-        <div className={styles.employeeBot}>
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  return (
+    <div className={styles.updateEmp}>
+      <div className={styles.employeeBot}>
         <form className={styles.empForm} onSubmit={handleSubmit}>
           <label htmlFor="name">Name:</label>
           <input
@@ -86,9 +88,9 @@ const Update_Employee = () => {
             Update
           </button>
         </form>
-        </div>
       </div>
-    )
-}
+    </div>
+  );
+};
 
 export default Update_Employee;
