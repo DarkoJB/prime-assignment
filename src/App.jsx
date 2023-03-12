@@ -5,9 +5,10 @@ import Tasks from './pages/Tasks/Tasks';
 import Home from './pages/Home/Home';
 
 function App() {
-  // useEffect(() => {
-  //   localStorage.setItem('employeesArray', JSON.stringify([]));
-  // }, []);
+  useEffect(()=>{
+    !localStorage.getItem('tasksArray') && localStorage.setItem('tasksArray', JSON.stringify([]));
+    !localStorage.getItem('employeesArray') && localStorage.setItem('employeesArray', JSON.stringify([]));
+  }, []);
   return (
     <div className="App">
       <Router>

@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import styles from '../../components/Update_Employee/Update_Employee.module.css';
-import { useAppDispatch } from '../../redux/hooks';
 
 const Update_Employee = ({ id, updateEmployee }) => {
-  const dispatch = useAppDispatch();
   // const [clicked, setClicked] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -15,7 +13,7 @@ const Update_Employee = ({ id, updateEmployee }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const jsonData = JSON.stringify(formData);
+    // const jsonData = JSON.stringify(formData);
     setFormData({
       name: '',
       email: '',

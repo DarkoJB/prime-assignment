@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <>
       <div className={styles.homeContainer}>
-        <h1 className={styles.title}>Prime Software Assignment</h1>
+        <h1 className={styles.title}><NavLink to={"/"}>Prime Software Assignment</NavLink></h1>
         <nav>
           <ul className={styles.nav}>
             <li><NavLink to={"/employees"}>Employees</NavLink></li>

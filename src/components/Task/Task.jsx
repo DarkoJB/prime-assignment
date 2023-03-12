@@ -1,15 +1,24 @@
 import React, { useState } from 'react';
 import styles from '../../components/Task/Task.module.css';
-import { useAppSelector } from '../../redux/hooks';
-const Task = () => {
-  const employees = useAppSelector((state) => state.employee.employeeArr); ///////////// OVDE IZ STORA PRISTUPAMO ELEMENTIMA NIZA (EMPLOYEARR) ///////////////////
-
+import Update_Task from '../Update_Task/Update_Task';
+const Task = ({
+  id,
+  title,
+  description,
+  assignee,
+  due_date,
+  updateTask,
+  deleteTask,
+}) => {
   const [clicked, setClicked] = useState(false);
-  console.log(employees);
+  const [isOpen, setOpen] = useState(false);
+  const handleClick = () => {
+    setOpen(!isOpen);
+  };
   return (
     <div className={styles.taskContainer}>
       <div className={styles.taskTop}>
-        <p>Name</p>
+        <p>{title}</p>
         <ul className={styles.list}>
           <li>
             <button
@@ -20,19 +29,31 @@ const Task = () => {
             </button>
           </li>
           <li>
-            <button className={styles.butTask}>Update</button>
+            <button className={styles.butTask} onClick={handleClick}>
+              Update
+            </button>
           </li>
           <li>
-            <button className={styles.butTask}>Delete</button>
+            <button
+              className={styles.butTask}
+              onClick={() => deleteTask(id)}
+            >
+              Delete
+            </button>
           </li>
         </ul>
       </div>
       {clicked && (
         <div className={styles.taskBot}>
-          <p>Title</p>
-          <p>Description</p>
-          <p>Assignee</p>
-          <p>Due Date</p>
+          <p>{title}</p>
+          <p>{description}</p>
+          <p>{assignee}</p>
+          <p>{due_date}</p>
+        </div>
+      )}
+      {isOpen && (
+        <div className={styles.updateTask}>
+          <Update_Task id={id} updateTask={updateTask} />
         </div>
       )}
     </div>
